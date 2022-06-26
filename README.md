@@ -1,5 +1,12 @@
 ## Event and News with Registration for Contao
 
+This module adds standalone, simple event management that is not linked to the Contao event bundle.
+Create categories and assign them (one or more) to the events. An event registration (with the number of places available and the price) can be activated for each event.
+Currently this module is not multilanugage.
+A registration email/confirmation email can be activated in the settings.
+Registration is possible for registered and non-registered users.
+Non-registered users need Javascript to register for an event.
+
 
 ## Install
 
@@ -46,6 +53,10 @@ Update your contao installation composer.json
 
 # Screenshots
 ![eventnewsregistration](https://user-images.githubusercontent.com/8200853/175809937-908e0aef-8c35-4b41-a1ff-963fc2904d94.png)
+
+![image](https://user-images.githubusercontent.com/8200853/175811026-2895a2a4-5b89-44fc-8057-b87fceed29f7.png)
+
+![image](https://user-images.githubusercontent.com/8200853/175810958-93c10408-e464-43f0-96a8-4c8fcab53b0f.png)
 
 
 
