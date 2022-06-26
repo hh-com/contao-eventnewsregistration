@@ -3,7 +3,11 @@
 
 ## Install
 
-Copy to:  
+``` code
+$ composer require hh-com/contao-eventnewsregistration
+```
+
+or copy to:  
 root  
 \- src  
 \- - hh-com  
@@ -28,7 +32,7 @@ Update your contao installation composer.json
 ```
 
 
-***Backend configuration
+**Backend configuration**
 1. create categories (and/or location, organiser)
 2. create a reader page
 3. create a listview page
@@ -40,3 +44,10 @@ Update your contao installation composer.json
 7. create the categories module and insert it into page
 8. create the registration module and insert it into reader page or on the registration-form page
 
+# Screenshots
+![eventnewsregistration](https://user-images.githubusercontent.com/8200853/175809937-908e0aef-8c35-4b41-a1ff-963fc2904d94.png)
+
+
+
+**Changelog**
+* init
