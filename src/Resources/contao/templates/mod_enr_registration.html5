@@ -1,0 +1,159 @@
+<?php $this->extend('block_unsearchable'); ?>
+
+<?php $this->block('content'); ?>
+
+<div class="showRegistrationForm">
+    <?php if ($this->showRegistrationForm): ?>
+
+        <noscript>Activate Javascript if you want to register!</noscript>
+
+        <?php
+        /**
+         * Registration is only possiblie with activated Javascript
+         */
+        ?>
+
+        <?php if ($this->frontendUser): ?>
+
+            <?php $js_userstatus = "loggedin"; ?>
+
+        <?php else: ?>
+
+            <?php $js_userstatus = "loggedout"; ?>
+
+            <div id="registernow" class="btn">
+                Zum Event registrieren
+            </div>
+
+        <?php endif; ?>
+
+        <?php 
+        // $GLOBALS['TL_HEAD'][] = "
+        //     <script>
+        //         let userstatus = '".$js_userstatus."';
+        //         var total_places_free = ".($this->registrationInfos['total_places_free']?:0)."
+        //         var normalPrice = ".($this->registrationInfos['normalPrice']?:0)."
+        //     </script>" 
+        ?>
+
+        <div id="regform" action="" method="post" style="display: none;">
+            <input type="hidden" name="FORM_SUBMIT" value="ENRREGISTRATION">
+            <input type="hidden" name="REQUEST_TOKEN" value="<?php echo REQUEST_TOKEN; ?>">
+            <input type="hidden" name="SECVAL" value="<?php echo date("d.m.Y H:i:s", time() );?>">
+
+            <h3>Registrierung/Anmeldung</h3>
+
+            <?php if ($this->registrationInfos['places_already_reserved'] > 0): ?>
+                <div class="alreadyReserved">
+                    You have already <?= $this->registrationInfos['places_already_reserved'] ?> place(s) reserved.
+                </div>
+            <?php endif; ?>
+            
+ 
+            <div class="price formrow">
+                <?php if ($this->registrationInfos['normalPrice'] == "hide"): ?>
+                <?php elseif ($this->registrationInfos['normalPrice'] == "free"): ?>
+                    <span class='pricelabel'>Free</span>
+                <?php else: ?>
+                        <span class='pricelabel'>Price</span>
+                        <span class='normalPrice'><?php echo number_format(floatval($this->registrationInfos['normalPrice']), 2, ',', ' '); ?></span>
+                <?php endif; ?>
+
+                <label for="places">Plätze</label>
+                <input type="number" value="1" min="1" max="<?php echo $this->registrationInfos['total_places_free']; ?>" id="places" name="places" step="1">
+
+                <?php if (is_float($this->registrationInfos['normalPrice'])): ?>
+                <span class="calculated">
+                    <span id="calculatedTotal">
+                    <?php echo number_format(floatval($this->registrationInfos['normalPrice']), 2, ',', ' '); ?>
+                    </span>
+                </span>
+                <?php endif; ?>
+            </div>
+
+            
+            <?php 
+                $hideThisFormIfLoggedIn = false;
+                $i = 0; 
+            ?>
+            <?php if ($this->registrationInfos['hideRegistrationFormWhenMemberIsLoggedIn']): ?>
+                <?php 
+                    $hideThisFormIfLoggedIn = " style='display:none !important;' ";
+                ?>
+                <div class="showPersonalData">
+                    <div><?=$this->frontendUser->firstname?> <?=$this->frontendUser->firstname?></div>
+                    <div><?=$this->frontendUser->email?></div>
+                    <div><?=$this->frontendUser->postal?> <?=$this->frontendUser->city?>, <?=$this->frontendUser->street?></div>
+                </div>
+            <?php endif; ?>
+
+            <div class="contactdata" <?= $hideThisFormIfLoggedIn?:""; ?>>
+
+                <div class="formrow">
+                    <label for="firstname<?=$i?>">Vorname:</label>
+                    <input type="text" name="contact[<?=$i?>][firstname]" id="firstname<?=$i?>" value="<?php echo @$this->frontendUser->firstname?:''; ?>">
+                </div>
+                <div class="formrow">
+                    <label for="lastname<?=$i?>">Nachname:</label>
+                    <input type="text" name="contact[<?=$i?>][lastname]" id="lastname<?=$i?>" value="<?php echo @$this->frontendUser->lastname?:''; ?>">
+                </div>
+                <div class="formrow">
+                    <label for="email<?=$i?>">E-Mail:</label>
+                    <input type="text" name="contact[<?=$i?>][email]" id="email<?=$i?>" value="<?php echo @$this->frontendUser->email?:''; ?>">
+                </div>
+                <div class="formrow">
+                    <label for="postal<?=$i?>">PLZ:</label>
+                    <input type="text" name="contact[<?=$i?>][postal]" id="postal<?=$i?>" value="<?php echo @$this->frontendUser->postal?:''; ?>">
+                </div>
+                <div class="formrow">
+                    <label for=city<?=$i?>">City:</label>
+                    <input type="text" name="contact[<?=$i?>][city]" id="city<?=$i?>" value="<?php echo @$this->frontendUser->city?:''; ?>">
+                </div>
+                <div class="formrow">
+                    <label for="street<?=$i?>">Street:</label>
+                    <input type="text" name="contact[<?=$i?>][street]" id="street<?=$i?>" value="<?php echo @$this->frontendUser->street?:''; ?>">
+                </div>
+            
+                <?php 
+                    // Honeypot try to prevent spam
+                    $GLOBALS['TL_HEAD'][] = "<style>.hpotprod{display:none!important;}</style>";
+                    // Do NOT DELETE THIS LINES
+                ?>
+                <div class="formrow hpotprod" >
+                    <label for="hpot<?=$i?>">Hpot:</label>
+                    <input type="text" name="contact[<?=$i?>][hpot]" id="hpot<?=$i?>" value="">
+                </div>
+            </div>
+        
+            <div class="formrow">
+                    <label for="conditions<?=$i?>">Conditions:</label>
+                    <input type="checkbox" name="contact[<?=$i?>][conditions]" id="conditions<?=$i?>" <?php if ($this->conditionsAreMandatory) echo "required"?>>
+            </div>
+
+            <div class="formrow">
+                    <label for="gdpr<?=$i?>">GDPR:</label>
+                    <input type="checkbox" name="contact[<?=$i?>][gdpr]" id="gdpr<?=$i?>" <?php if ($this->gdprAreMandatory) echo "required"?>>
+            </div>
+
+            <input type="submit" value="Absenden">
+
+    </div>
+    <?php else: ?>
+    <div class="notpossible">
+        <?php if ($this->registrationInfos['registrationIsPossibleForLoggedInUser']): ?>
+            Registration only for logged in users.
+        <?php else: ?>
+            <?php if ($this->registrationInfos['registrationIsActive'] == true): ?>
+                The registration period for this course has already expired.
+            <?php else: ?>
+                No registration required.
+            <?php endif; ?>
+            
+        <?php endif; ?>
+    </div>
+    <?php endif; ?>
+    
+</div>
+
+<?php $this->endblock(); ?>
+

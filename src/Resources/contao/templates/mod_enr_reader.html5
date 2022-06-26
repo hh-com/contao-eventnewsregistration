@@ -1,0 +1,99 @@
+<?php $this->extend('block_unsearchable'); ?>
+
+<?php $this->block('content'); ?>
+
+<?php if ($event = $this->event): ?>
+<div class="enrReader">
+    <div>
+
+        <h1><?php echo $event->title; ?></h1>
+
+        <?php if ($event->eventDate['dateTimeIsVisible']): ?>
+          <div class="date">
+            <time datetime="<?= $event->eventDate['schemaStartDate'] ?>" class="date">
+            &#128337;
+            
+              <?= $event->eventDate['startDate'] ?>
+              <?php if ($event->eventDate['showEndDate']): ?>
+                - <?= $event->eventDate['endDate'] ?>
+                <?php endif; ?>
+            </time>
+          </div>
+        <?php endif; ?>
+
+        <?php if ($event->teaser): ?>
+        <div class="teaser">
+            <?php echo $event->teaser; ?>
+        </div>
+        <?php endif;?>
+
+        <?php if ($event->description): ?>
+        <div class="description">
+            <?php echo $event->description; ?>
+        </div>
+        <?php endif;?>
+
+        <?php if ($event->organiserData): ?>
+        <div class="organiser">
+            <?php echo $event->organiserData->organiser; ?>
+        </div>
+        <?php endif;?>
+
+        <?php if ($event->locationData): ?>
+        <div class="location">
+            <?php echo $event->locationData->location; ?>
+        </div>
+        <?php endif;?>
+
+        <?php if ($event->preparedImages): ?>
+        <div class="images">
+            <?php foreach ($event->preparedImages as $image): ?>
+                <div class="image">
+                    <img src="<?php echo  $image['path']; ?>" alt="<?php echo $image['meta']['alt']; ?>" title="<?php echo $image['meta']['title']; ?>">
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <?php endif;?>
+
+        <?php if ($event->preparedFiles): ?>
+        <div class="files">
+            <?php foreach ($event->preparedFiles as $file): ?>
+                <div class="file">
+                    <a download href="<?php echo $file['path']; ?>" alt="<?php echo $file['name']; ?>" title="<?php echo $file['name']; ?>">
+                    <?php echo $file['name']; ?>
+                    </a>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <?php endif;?>
+
+        <?php if (false and $event->categoriesCollection): ?>
+        <div class="allCategories">
+
+            <?php foreach($event->categoriesCollection as $category): ?>
+
+                <a href="<?php echo $category->link ?>"><?php echo $category->title ?></a>
+
+            <?php endforeach; ?>
+
+        </div>
+        <?php endif;?>
+                
+        <?php if($this->overviewPage): ?>
+        <div class="goback">
+            <a href="<?= $this->overviewPage ?>">go back</a>
+        </div>
+        <?php endif; ?>
+
+       
+        <?php if($this->registration['registrationIsVisible'] && $this->jumpToRegistration): ?>
+        <div class="registration">
+            <a href="<?= $this->jumpToRegistration ?>">Registration</a>
+        </div>
+        <?php endif; ?>
+
+    </div>
+
+</div>
+<?php endif; ?>
+<?php $this->endblock(); ?>

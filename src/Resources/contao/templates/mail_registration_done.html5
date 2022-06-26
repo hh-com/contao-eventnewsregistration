@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" content="text/html;" http-equiv="Content-Type">
+    <title>Registration</title>
+    <style type="text/css">
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h3>Sehr geehrte/r <?php echo $this->registrationObj->firstname; ?> <?php echo $this->registrationObj->lastname; ?>,</h3> 
+    <p>
+        Danke für Ihre verbindliche Anmeldung zur Veranstaltung <?php echo $this->eventObj->title; ?>.<br>
+        <br>
+        Datum: <?php echo $this->eventObj->eventDate['startDate']; ?>  
+               <?php if ($this->eventObj->eventDate['showEndDate']) echo " - " . $this->eventObj->eventDate['endDate'];  ?><br>
+        <?php if ($this->eventObj->locationData): ?>
+            Ort:  <?php echo $this->eventObj->locationData->location; ?><br>
+        <?php endif; ?>
+        <?php if ($this->eventObj->organiserData): ?>
+            Organisator:  <?php echo $this->eventObj->organiserData->organiser; ?><br>
+        <?php endif; ?>
+        <br>
+        <?php if ($this->confirmRegistration): ?>
+            <a href="<?php echo $this->confirmationLink; ?>">Bestätigen Sie hier Ihre Registrierung durch einen Klick.</a><br>
+            <br>
+        <?php endif; ?>
+        <?php if ($this->registrationObj->totalPrice_incl > 0): ?>
+            Vorauskassa:<br>
+            Bitte Überweisen Sie den Betrag von <strong><?php echo number_format(floatval($this->registrationObj->totalPrice_incl), 2, ',', ' '); ?></strong> auf folgendes Konto:<br>
+            Bank: ABCDEF<br>
+            IBAN: ABCDEF<br>
+            BIC: ABCDEF<br>
+            <i>Verwendungszweck: <?php echo $this->registrationObj->uniqueid; ?></i><br>
+        <?php endif; ?>
+        <br>
+        <br>
+        Wir wünschen Ihnen gute Unterhaltung bei der gebuchten Vorstellung.<br>
+        Ihr Team!
+    </p>
+</div>
+
+</body>
+</html>

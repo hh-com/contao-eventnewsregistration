@@ -1,0 +1,80 @@
+services:
+    _defaults: { autowire: true, autoconfigure: true, public: false }
+    _instanceof:
+        Contao\CoreBundle\Framework\FrameworkAwareInterface:
+            calls:
+                - ["setFramework", ["@contao.framework"]]
+
+    enr.picker.enrPicker:
+            class: Hhcom\ContaoEventNewsRegistration\Picker\EnrPickerProvider
+            arguments:
+                - "@knp_menu.factory"
+                - "@router"
+                - "@translator"
+            calls:
+                - [setTokenStorage, ["@security.token_storage"]]
+            tags:
+                - { name: contao.picker_provider, priority: 133 }
+
+    enr.picker.enrCategoryPicker:
+            class: Hhcom\ContaoEventNewsRegistration\Picker\EnrCategoryPickerProvider
+            arguments:
+                - "@knp_menu.factory"
+                - "@router"
+                - "@translator"
+            calls:
+                - [setTokenStorage, ["@security.token_storage"]]
+            tags:
+                - { name: contao.picker_provider, priority: 132 }
+
+    enr.listener.insert_tags:
+            class: Hhcom\ContaoEventNewsRegistration\EventListener\InsertTagsListener
+            arguments:
+                - '@contao.framework'
+            tags:
+                - { name: contao.hook, hook: replaceInsertTags }
+
+    enr.listener.initialize_system:
+            autoconfigure: true
+            autowire: true
+            class: Hhcom\ContaoEventNewsRegistration\EventListener\InitializeSystemListener
+            tags:
+                - { name: contao.hook, hook: initializeSystem }
+
+    Hhcom\ContaoEventNewsRegistration\Controller\FrontendModule\EnrListFrontendController:
+            public: true
+            tags:
+                -
+                    name: contao.frontend_module
+                    template: mod_enr_list
+                    category: miscellaneous
+                    type: enrList
+
+    Hhcom\ContaoEventNewsRegistration\Controller\FrontendModule\EnrReaderFrontendController:
+            public: true
+            arguments:
+                - '@security.helper'
+            tags:
+                -
+                    name: contao.frontend_module
+                    template: mod_enr_reader
+                    category: miscellaneous
+                    type: enrReader
+
+    Hhcom\ContaoEventNewsRegistration\Controller\FrontendModule\EnrCategoryController:
+            public: true
+            tags:
+                -
+                    name: contao.frontend_module
+                    template: mod_enr_category
+                    category: miscellaneous
+                    type: enrCategory
+
+    Hhcom\ContaoEventNewsRegistration\Controller\FrontendModule\EnrRegistrationController:
+            public: true
+            tags:
+                -
+                    name: contao.frontend_module
+                    template: mod_enr_registration
+                    category: miscellaneous
+                    type: enrRegistration

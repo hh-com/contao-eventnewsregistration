@@ -1,0 +1,17 @@
+<?php if ($this->categories): ?>
+  <div class="categories"> 
+    <ul>
+      <?php foreach($this->categories as $category): ?>
+      <li class="categorylist <?php if ($category->activeCategory) echo 'active'; ?>">
+        <a 
+          href="<?php echo $category->url; ?>" 
+          title="<?php echo $category->title; ?>" 
+          class="<?php if ($category->activeCategory) echo 'active'; ?>"
+          >
+          <?php echo $category->title; ?>
+        </a>
+      </li>
+      <?php endforeach; ?>
+    </ul>
+  </div>
+<?php endif; ?>

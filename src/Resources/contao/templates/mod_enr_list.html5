@@ -1,0 +1,70 @@
+<?php $this->extend('block_unsearchable'); ?>
+
+<?php $this->block('headline'); ?>
+  <?php if ($this->headline): ?>
+    <<?= $this->hl ?> class="tophl"><?= $this->headline ?></<?= $this->hl ?>>
+  <?php endif; ?>
+<?php $this->endblock(); ?>
+
+<?php $this->block('content'); ?>
+
+<div class="enrList">
+  <?php if ($this->events): ?>
+    <?php
+        $firstLast = 0;  
+    ?>
+    <?php foreach ($this->events as $event): ?>
+    
+      
+      <div class="eventitem <?php echo $event->firstLastClass?>">
+
+        <h2 class="hl"><?php echo $event->title; ?></h2>
+
+        <?php if ($event->eventDate['dateTimeIsVisible']): ?>
+          <div class="date">
+            <time datetime="<?= $event->eventDate['schemaStartDate'] ?>" class="date">
+            <i class="bi bi-clock"></i>
+              <?= $event->eventDate['startDate'] ?>
+              <?php if ($event->eventDate['showEndDate']): ?>
+                - <?= $event->eventDate['endDate'] ?>
+                <?php endif; ?>
+            </time>
+          </div>
+        <?php endif; ?>
+
+        <?php if($event->teaser): ?>
+          <div class="teaser">
+            <?php echo $event->teaser; ?>
+          </div>
+        <?php endif; ?>
+
+        <?php if($event->eventLink): ?>
+          <a class="readmore btn btn-primary" href="<?php echo $event->eventLink; ?>" title="<?php echo $event->title; ?>">
+          Detail
+
+          <?php if ($event->event_registration == "1" &&  $event->event_registration_stop > time() ): ?>
+            and registration
+          <?php endif; ?>
+          
+          </a>
+        <?php endif; ?>
+
+      </div>
+
+    <?php endforeach; ?>
+
+    <?php if ($this->pagination): ?>
+      <div class="pagination-container">
+      <?php echo $this->pagination; ?>
+      </div>
+    <?php endif; ?>
+
+  <?php else: ?>
+    <div class="noItem">
+      No events at the moment.
+    </div>
+  
+  <?php endif; ?>
+</div>
+
+<?php $this->endblock(); ?>

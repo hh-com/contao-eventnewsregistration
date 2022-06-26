@@ -1,0 +1,18 @@
+{
+    "name":"hh-com/contao-eventnewsregistration",
+    "description":"Contao 4 bundle for events and news with registration.",
+    "type":"contao-bundle",
+    "license":"LGPL-3.0-or-later",
+    "require":{
+        "php": "^7.4 || ^8.0",
+        "contao/core-bundle": "^4.12"
+    },
+    "autoload": {
+        "psr-4": {
+			"Hhcom\\ContaoEventNewsRegistration\\": "src/"
+        }
+    },
+    "extra": {
+		"contao-manager-plugin": "Hhcom\\ContaoEventNewsRegistration\\ContaoManager\\Plugin"
+    }
+}
